@@ -7,21 +7,21 @@ describe('API', function() {
 
     it('GET /contacts should return the list of registered contacts', function() {
       return request(app)
-      .get('/contacts')
+      .get('/api/contacts')
       .send()
       .expect(200);
     });
 
     it('GET /contacts/:name should return the list of registered contacts with the same name', function() {
       return request(app)
-      .get('/contacts/foo')
+      .get('/api/contacts/foo')
       .send()
       .expect(200);
     });
 
     it('POST /contacts should create a new contact', function() {
       return request(app)
-      .post('/contacts')
+      .post('/api/contacts')
       .send({
         contact: {
           name:"edward"
@@ -32,14 +32,14 @@ describe('API', function() {
 
     it('PUT /contacts/:name/:new should update all contact with the same name', function() {
       return request(app)
-      .put('/contacts/foo/bar')
+      .put('/api/contacts/foo/bar')
       .send()
       .expect(200);
     });
 
     it('DELETE /contacts/:name should update all contact with the same name', function() {
       return request(app)
-      .delete('/contacts/foo')
+      .delete('/api/contacts/foo')
       .send()
       .expect(200);
     });
