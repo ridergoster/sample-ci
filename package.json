@@ -1,0 +1,19 @@
+{
+  "name": "sample-ci",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "vincentk",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "supertest": "^1.2.0"
+  }
+}
