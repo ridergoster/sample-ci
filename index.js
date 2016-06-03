@@ -2,47 +2,50 @@ var express = require('express');
 var bodyparser = require('body-parser');
 var _ = require('lodash');
 var app = express();
+var mongoose = require('mongoose');
 
+var dbUri = process.env.MONGODB_URI || "mongodb://localhost:27017/kontack";
+mongoose.connect(dbUri);
+var Contact = mongoose.model('Contact',
+  mongoose.Schema({
+    name: {
+      type: String,
+      required: true
+    }
+  })
+);
 var contacts = [];
 
 app.use(express.static('public'));
 
-app.get('/api/contacts', function(req, res, next) {
-  res.send(contacts);
-});
-
-app.get('/api/contacts/:name', function(req, res, next) {
-  res.send(contacts);
-});
-
-app.post('/api/contacts', bodyparser.json(), function(req, res, next) {
-  var contact = req.body.contact;
-  contacts.push(contact);
-  res.send(contacts);
-});
-
-app.put('/api/contacts/:name/:new', function(req, res, next) {
-  var count = 0;
-  contacts.map(function(contact) {
-    if(contact.name == req.params.name) {
-      count++;
-      contact.name = req.params.new;
-    }
-    return contact;
+app.get('/contacts', function(req, res, next) {
+  Contact.find(function(err, contacts) {
+    res.send(contacts);
   });
-  res.send({count: count});
 });
 
-app.delete('/api/contacts/:name', function(req, res, next) {
-  var count = 0;
-  _.remove(contacts, function(contact) {
-    if(contact.name !== req.params.name) {
-      return false;
-    }
-    count++;
-    return true;
+app.get('/contacts/:name', function(req, res, next) {
+  Contact.find({name: req.params.name}, function(err, contacts) {
+    res.send(contacts);
   });
-  res.send({count: count});
+});
+
+app.post('/contacts', bodyparser.json(), function(req, res, next) {
+  var contact = new Contact(req.body.contact);
+  contact.save(function(err, contacts) {
+    res.send(contact);
+  });
+});
+
+app.put('/contacts/:name/:new', function(req, res, next) {
+  Contact.update({
+    name: req.params.name,
+    $set: {
+      name: req.params.new
+    }
+  }, function(err, data) {
+    res.send(data);
+  });
 });
 
 var port = process.env.PORT || 3000;

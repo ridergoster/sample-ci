@@ -37,12 +37,5 @@ describe('API', function() {
       .expect(200);
     });
 
-    it('DELETE /contacts/:name should update all contact with the same name', function() {
-      return request(app)
-      .delete('/api/contacts/foo')
-      .send()
-      .expect(200);
-    });
-
   });
 });
