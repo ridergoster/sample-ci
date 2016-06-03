@@ -22,13 +22,17 @@ describe('API', function() {
     it('POST /contacts should create a new contact', function() {
       return request(app)
       .post('/contacts')
-      .send({name:"edward"})
+      .send({
+        contact: {
+          name:"edward"
+        }
+      })
       .expect(200);
     });
 
     it('PUT /contacts/:name/:new should update all contact with the same name', function() {
       return request(app)
-      .post('/contacts/foo/bar')
+      .put('/contacts/foo/bar')
       .send()
       .expect(200);
     });
