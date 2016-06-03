@@ -47,7 +47,8 @@ app.delete('/contacts/:name', function(req, res, next) {
   res.send({count: count});
 });
 
-console.log('listening on port 8080');
-app.listen(8080);
+var port = process.env.PORT || 3000;
+console.log('listening on port' + port);
+app.listen(port);
 
 module.exports = app;
